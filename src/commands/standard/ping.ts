@@ -11,9 +11,10 @@ export default class PingCommand implements Command {
         guild: Guild,
         command: CommandInteraction
     ) => {
+        let time = Date.now()
         command.reply("...").then(msg => {
-            let ping = command.createdTimestamp - msg.createdTimestamp
-            msg.edit(`Pong! ${mentionUser(user)} (${ping}ms)`)
+            let ping = Math.round((Date.now() - time) / 100) / 10
+            msg.edit(`Pong! ${mentionUser(user)} (${ping}s)`)
         })
     }
 }

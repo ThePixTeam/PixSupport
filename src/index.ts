@@ -1,6 +1,6 @@
 import {log} from './utils/logger'
 import 'dotenv/config'
-import {ActivityType, Client, GatewayIntentBits} from 'discord.js'
+import {ActivityType, Client, GatewayIntentBits, Partials} from 'discord.js'
 import {getCommands, loadCommands} from './utils/command-utils'
 import chalk from "chalk";
 import {handleMemberJoin, handleMemberLeave} from "./listeners/join-leave-listener";
@@ -16,14 +16,12 @@ if (!token) {
 log('Token provided', 'info')
 
 const client = new Client({
-    intents: [GatewayIntentBits.Guilds],
+    intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMembers],
+    partials: [Partials.GuildMember]
 })
 
 client.login(token).catch((error) => {
     log(error, 'error')
-
-    client.on('guildMemberAdd', handleMemberJoin);
-    client.on('guildMemberRemove', handleMemberLeave);
 
     process.exit(1)
 })
@@ -34,6 +32,12 @@ client.on('ready', () => {
 
     printStartupTime()
 })
+
+client.on('guildMemberAdd', member => {
+    log(member)
+    handleMemberJoin(member)
+});
+client.on('guildMemberRemove', member => handleMemberLeave(member));
 
 client.on('interactionCreate', (interaction) => {
     if (!interaction.isCommand()) return
