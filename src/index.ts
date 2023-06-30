@@ -1,6 +1,6 @@
 import {log} from './utils/logger'
 import 'dotenv/config'
-import {Client, GatewayIntentBits} from 'discord.js'
+import {ActivityType, Client, GatewayIntentBits} from 'discord.js'
 import {getCommands, loadCommands} from './utils/command-utils'
 import chalk from "chalk";
 
@@ -25,6 +25,7 @@ client.login(token).catch((error) => {
 
 client.on('ready', () => {
     loadCommands(client)
+    client.user?.setActivity('/help', {type: ActivityType.Listening})
 
     printStartupTime()
 })

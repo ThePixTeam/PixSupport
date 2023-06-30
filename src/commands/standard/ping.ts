@@ -1,5 +1,6 @@
 import Command from '../command'
 import {Client, CommandInteraction, Guild, User} from 'discord.js'
+import {mentionUser} from "../../utils/string-utils";
 
 export default class PingCommand implements Command {
     name = 'ping'
@@ -12,7 +13,7 @@ export default class PingCommand implements Command {
     ) => {
         command.reply("...").then(msg => {
             let ping = command.createdTimestamp - msg.createdTimestamp
-            msg.edit(`Pong! ${user.username} (${ping}ms)`)
+            msg.edit(`Pong! ${mentionUser(user)} (${ping}ms)`)
         })
     }
 }
