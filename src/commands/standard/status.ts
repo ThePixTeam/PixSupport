@@ -1,6 +1,7 @@
 import Command from '../command'
 import {Client, CommandInteraction, Guild, User} from 'discord.js'
 import axios from "axios";
+import {inlineCodeBlock} from "../../utils/string-utils";
 
 export default class StatusCommand implements Command {
     name = 'status'
@@ -11,12 +12,26 @@ export default class StatusCommand implements Command {
         guild: Guild,
         command: CommandInteraction
     ) => {
-        command.reply('...').then((message) => {
+        let time = Date.now()
+        command.reply({embeds: [{title: "Fetching status..."}]}).then((message) => {
             axios.get('https://api.pixbot.me').then((response) => {
-                let ping = response.headers['x-response-time']
-                message.edit(`:v: The bot is online with a ping of ${ping}ms`)
+                let ping = Math.round((Date.now() - time) / 100) / 10
+                let data: { version: string } = response.data
+                message.edit({
+                    embeds: [{
+                        title: "Status",
+                        description: `:white_check_mark: The bot is **online**\n:clock1: Ping: ${inlineCodeBlock(ping + 's')}\n:robot: Version: ${inlineCodeBlock(data.version)}`,
+                        color: 0x00ff00
+                    }]
+                })
             }).catch(() => {
-                message.edit(':x: The bot is offline :x:')
+                message.edit({
+                    embeds: [{
+                        title: "Status",
+                        description: `:x: The bot is **offline**`,
+                        color: 0xff0000
+                    }]
+                })
             })
         })
     }

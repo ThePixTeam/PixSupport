@@ -33,11 +33,8 @@ client.on('ready', () => {
     printStartupTime()
 })
 
-client.on('guildMemberAdd', member => {
-    log(member)
-    handleMemberJoin(member)
-});
-client.on('guildMemberRemove', member => handleMemberLeave(member));
+client.on('guildMemberAdd', handleMemberJoin);
+client.on('guildMemberRemove', handleMemberLeave);
 
 client.on('interactionCreate', (interaction) => {
     if (!interaction.isCommand()) return

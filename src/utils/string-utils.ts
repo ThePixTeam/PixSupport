@@ -11,3 +11,7 @@ export function blankField(inline: boolean = false) {
         inline: inline
     }
 }
+
+export function inlineCodeBlock(text: any) {
+    return `\`${text}\``
+}
