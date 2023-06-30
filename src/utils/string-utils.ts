@@ -1,6 +1,6 @@
-import {User} from "discord.js";
+import {GuildMember, PartialGuildMember, User} from "discord.js";
 
-export function mentionUser(user: User) {
+export function mentionUser(user: User | GuildMember | PartialGuildMember) {
     return `<@${user.id}>`
 }
 

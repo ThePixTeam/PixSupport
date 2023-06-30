@@ -3,6 +3,7 @@ import 'dotenv/config'
 import {ActivityType, Client, GatewayIntentBits} from 'discord.js'
 import {getCommands, loadCommands} from './utils/command-utils'
 import chalk from "chalk";
+import {handleMemberJoin, handleMemberLeave} from "./listeners/join-leave-listener";
 
 const start = Date.now()
 const token = process.env.TOKEN
@@ -20,6 +21,10 @@ const client = new Client({
 
 client.login(token).catch((error) => {
     log(error, 'error')
+
+    client.on('guildMemberAdd', handleMemberJoin);
+    client.on('guildMemberRemove', handleMemberLeave);
+
     process.exit(1)
 })
 
