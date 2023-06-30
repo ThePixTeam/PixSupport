@@ -6,10 +6,6 @@ import chalk from "chalk";
 
 const start = Date.now()
 const token = process.env.TOKEN
-process.on('SIGINT', function () {
-    log('Ctrl-C...')
-    process.exit(2)
-})
 
 if (!token) {
     log('No token provided', 'error')
