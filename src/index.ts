@@ -6,6 +6,7 @@ import chalk from "chalk";
 
 const start = Date.now()
 const token = process.env.TOKEN
+require('prompt-sync')({sigint: true});
 
 if (!token) {
     log('No token provided', 'error')
