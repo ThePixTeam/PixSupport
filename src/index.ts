@@ -4,6 +4,7 @@ import {ActivityType, Client, GatewayIntentBits, Partials} from 'discord.js'
 import {getCommands, loadCommands} from './utils/command-utils'
 import chalk from "chalk";
 import {handleMemberJoin, handleMemberLeave} from "./listeners/join-leave-listener";
+import {updateStatus} from "./schedules/schedules";
 
 const start = Date.now()
 const token = process.env.TOKEN
@@ -32,6 +33,8 @@ client.on('ready', () => {
 
     printStartupTime()
 })
+
+setInterval(updateStatus, 1000 * 30)
 
 client.on('guildMemberAdd', handleMemberJoin);
 client.on('guildMemberRemove', handleMemberLeave);
