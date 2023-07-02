@@ -24,7 +24,7 @@ export function updateStatus() {
         axios.get('https://api.pixbot.me').then((response) => {
             let ping = Math.round((Date.now() - time) / 100) / 10;
             let data = response.data;
-            client.user?.setActivity(`/help | ${data.version} | ${ping}s`, {type: ActivityType.Listening})
+            client.user?.setActivity(`/help | ${data.version} | Ping : ${ping}s`, {type: ActivityType.Listening})
             data.ping = ping;
             updateStatusMessage(message, channel, data);
         }).catch(() => {
